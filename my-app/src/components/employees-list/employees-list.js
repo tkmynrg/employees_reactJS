@@ -4,10 +4,12 @@ import './employees-list.css'
 const EmployeesList = ({data}) => {
 
     const elements = data.map(item => {
+        const {id, ...itemProps} = item
+        //деструктуризация - вытащим ID отдельно, item  отдельно
         return (
-            <EmployeesListItem name={item.name} salary={item.salary} increase={item.increase}/>
+            <EmployeesListItem key={id} {...itemProps}/>
             //это тоже самое что и
-            //<EmployeesListItem {...item}/>
+            //<EmployeesListItem name={item.name} salary={item.salary} increase={item.increase} key={}/>
         )
     })
 
