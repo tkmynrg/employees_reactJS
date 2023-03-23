@@ -24,7 +24,7 @@ class EmployeesListItem extends Component {
     }
 
     render() {
-        const {name, salary} = this.props;
+        const {name, salary, onDelete} = this.props;
         const {increase, rise} = this.state;
         let classNames = 'list-group-item d-flex justify-content-between';
 
@@ -56,7 +56,8 @@ class EmployeesListItem extends Component {
 
                     <button
                         type={'button'}
-                        className={'btn-trash btn-sm'}>
+                        className={'btn-trash btn-sm'}
+                        onClick={onDelete}>
                         <i className={'bi bi-trash'}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  className="bi bi-trash" viewBox="0 0 16 16">
