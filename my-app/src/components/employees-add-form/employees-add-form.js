@@ -39,13 +39,15 @@ class EmployeesAddForm extends Component {
                            placeholder={'What\'s his name'}
                            name={'name'}
                            value={name}
-                           onChange={this.onValueChange}/>
+                           onChange={this.onValueChange}
+                           required/>
                     <input type="number"
                            className={'form-control-color new-post-label'}
                            placeholder={'Salary in $'}
                            name={'salary'}
                            value={salary}
-                           onChange={this.onValueChange}/>
+                           onChange={this.onValueChange}
+                           required/>
                     <button type={'submit'}
                            className={'btn btn-outline-light'}>
                         Add
