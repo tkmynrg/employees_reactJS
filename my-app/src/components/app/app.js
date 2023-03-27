@@ -60,23 +60,11 @@ class App extends Component {
         });
     }
 
-    onToggleIncrease = (id) => {
-        // this.setState(({data}) => {
-        //     // const index = data.findIndex(elem => elem.id === id);
-        //     //
-        //     // const old = data[index];
-        //     // const newItem = {...old, increase: !old.increase};
-        //     // const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)]
-        //     //
-        //     // return {
-        //     //     data: newArr
-        //     // }
-        // })
+    onToggleProp = (id, prop) => {
         this.setState(({data}) => ({
             data: data.map(item => {
-                //item - отдельный каждый элемент в массиве проходится внутри data
                 if (item.id === id) {
-                    return {...item, increase: !item.increase}
+                    return {...item, [prop]: !item[prop]}
                 }
                 return item;
             })
@@ -85,14 +73,28 @@ class App extends Component {
         }))
     }
 
-    onToggleRise = (id) => {
-        console.log(`Rise this ${id}`);
-    }
+    // onToggleRise = (id) => {
+    //     this.setState(({data}) => ({
+    //         data: data.map(item => {
+    //             //item - отдельный каждый элемент в массиве проходится внутри data
+    //             if (item.id === id) {
+    //                 return {...item, rise: !item.rise}
+    //             }
+    //             return item;
+    //         })
+    //         // здесь мы возвращаем новый оъект, у которого будет свойство data и через map (формируется новый массив, то есть map() возвращает новый массив) через callback функциою которая находится внутри - начинается с item =>
+    //         // когда идет перебор всех объектов из data подряд и если вдруг совпали id - то значит нашли нужный нам объект и в таком случае возвращается новый объект return {...item, increase: !item.increase} который содержит все старые свойства и + increase в котором меняется значение  и если вдруг условие не совпало, то просто возвращаем объект return item; и как итог мы получим массив объектов с измененным одним значением. Такая конструкция не нарушает правило иммутабильности
+    //     }))
+    // }
 
     render() {
+        //получим общее количество сотрудников из data
+        const employees = this.state.data.length;
+        //найдем количество сотрудников, которые получают премию и сортируем по increase
+        const increased = this.state.data.filter(item => item.increase).length;
         return (
             <div className={'App'}>
-                <AppInfo></AppInfo>
+                <AppInfo employees={employees} increased={increased}></AppInfo>
 
                 <div className={'search-filter'}>
                     <SearchPanel/>
@@ -102,8 +104,7 @@ class App extends Component {
                 <EmployeesList
                     data={this.state.data}
                     onDelete={this.deleteItem}
-                    onToggleIncrease={this.onToggleIncrease}
-                    onToggleRise={this.onToggleRise}/>
+                    onToggleProp={this.onToggleProp}/>
                 <EmployeesAddForm onAdd={this.addItem}/>
             </div>
         );
