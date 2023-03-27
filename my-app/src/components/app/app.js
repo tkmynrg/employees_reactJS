@@ -18,7 +18,8 @@ class App extends Component {
                 {name: 'Alex I.', salary :800, increase: false, rise: true, id: 1},
                 {name: 'Will S.', salary :3000, increase: true, rise: false, id: 2},
                 {name: 'Carl M.', salary :5000, increase: false, rise: false, id: 3},
-            ]
+            ],
+            term: ''
         }
 
         this.maxId = 4;
@@ -87,22 +88,40 @@ class App extends Component {
     //     }))
     // }
 
+    searchEmployees = (items, term) => {
+        if (term.length === 0) {
+            return items;
+        }
+        //каждый элемент массива item
+        //фильтруем и возвращаем только те элементы, которые проходят проверку
+        return items.filter(item => {
+            //метод для поиска кусочка строк, метод для поиска подстрок. Если он ничего не находит, то возвращает -1. В name вся строка, в term кусочек строки.
+            return item.name.indexOf(term) > -1
+        })
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({term})
+    }
+
     render() {
+        const {data, term} = this.state;
         //получим общее количество сотрудников из data
         const employees = this.state.data.length;
         //найдем количество сотрудников, которые получают премию и сортируем по increase
         const increased = this.state.data.filter(item => item.increase).length;
+        const visibleData = this.searchEmployees(data, term);
         return (
             <div className={'App'}>
                 <AppInfo employees={employees} increased={increased}></AppInfo>
 
                 <div className={'search-filter'}>
-                    <SearchPanel/>
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
                     <AppFilter/>
                 </div>
 
                 <EmployeesList
-                    data={this.state.data}
+                    data={visibleData}
                     onDelete={this.deleteItem}
                     onToggleProp={this.onToggleProp}/>
                 <EmployeesAddForm onAdd={this.addItem}/>
