@@ -19,7 +19,8 @@ class App extends Component {
                 {name: 'Will S.', salary :3000, increase: true, rise: false, id: 2},
                 {name: 'Carl M.', salary :5000, increase: false, rise: false, id: 3},
             ],
-            term: ''
+            term: '',
+            filter: '',
         }
 
         this.maxId = 4;
@@ -104,13 +105,26 @@ class App extends Component {
         this.setState({term})
     }
 
+    filterPost = (items, filter) => {
+        switch (filter) {
+            case 'rise':
+                return items.filter(item => item.rise);
+            case 'moreThen1000':
+                return items.filter(item => item.salary > 1000);
+            default:
+                return items;
+        }
+    }
+
     render() {
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
         //получим общее количество сотрудников из data
         const employees = this.state.data.length;
         //найдем количество сотрудников, которые получают премию и сортируем по increase
         const increased = this.state.data.filter(item => item.increase).length;
-        const visibleData = this.searchEmployees(data, term);
+        //конечные данные проходят двойную фильтрацию, сначала по поиску, потом по фильтру
+        const visibleData = this.filterPost(this.searchEmployees(data, term), filter);
+
         return (
             <div className={'App'}>
                 <AppInfo employees={employees} increased={increased}></AppInfo>
