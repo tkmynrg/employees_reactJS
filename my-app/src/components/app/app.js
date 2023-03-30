@@ -20,7 +20,7 @@ class App extends Component {
                 {name: 'Carl M.', salary :5000, increase: false, rise: false, id: 3},
             ],
             term: '',
-            filter: '',
+            filter: 'all',
         }
 
         this.maxId = 4;
@@ -116,6 +116,11 @@ class App extends Component {
         }
     }
 
+    //действия которые выполняет пользователь начинаются с on
+    onFilterSelect = (filter) => {
+        this.setState({filter});
+    }
+
     render() {
         const {data, term, filter} = this.state;
         //получим общее количество сотрудников из data
@@ -131,7 +136,8 @@ class App extends Component {
 
                 <div className={'search-filter'}>
                     <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
-                    <AppFilter/>
+                    {/*так мы передаем текущий стейт в проперти props и далее в filter.js мы можем его обработать получив его props.filter*/}
+                    <AppFilter filter={filter} onFilterSelect={this.onFilterSelect}/>
                 </div>
 
                 <EmployeesList
