@@ -1,4 +1,4 @@
-# employees_reactJS
+# Employees
 pet project payroll  reactJS
 
 Pet react project for practicing basic KRUD functions
